@@ -16,6 +16,8 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 - Adicionados testes de renderização, ciclo de vida, fallback e seleção do HUD.
 - Release validada com Ruff, compilação Python, `pip check` e suíte completa:
   168 testes aprovados e 1 ignorado.
+- Lock de testes atualizado para `pip==26.2.1`; `pip-audit` sem vulnerabilidades
+  conhecidas no ambiente QA.
 
 ## [2.2.34] - 2026-08-18
 

@@ -1,0 +1,24 @@
+schema: 1
+story: "3.1"
+story_title: "Implementar tema Liquid Orb portátil e fallback"
+gate: PASS
+status_reason: "Os sete critérios de aceite foram verificados por revisão manual, testes determinísticos e regressão completa; não foram encontrados problemas altos ou críticos. A validação visual Linux e o CodeRabbit permanecem pendentes por limitações do ambiente e estão registrados como recomendações não bloqueantes."
+reviewer: "Quinn"
+reviewed_revision: "commit:ab39c7d2e8862950b672f61c2e97c18c584176"
+updated: "2026-09-12T00:00:00-03:00"
+top_issues: []
+waiver:
+  active: false
+quality_score: 100
+evidence:
+  tests: "168 passed, 1 skipped (teste específico do Linux)"
+  ruff: "PASS"
+  compileall: "PASS"
+  pip_check: "PASS"
+  pip_audit: "PASS; nenhum problema conhecido após pip==26.2.1"
+  bundle_inventory: "PASS; 222.003 MB, 1326 arquivos, abaixo de 250 MB"
+  code_rabbit: "Indisponível; WSL não iniciou a sessão de usuário necessária"
+  linux_visual_smoke: "Pendente no runner Ubuntu do workflow de release"
+recommendations:
+  - "Executar smoke visual Linux no workflow Ubuntu antes da primeira release pública."
+  - "Executar CodeRabbit em host com CLI autenticado e WSL funcional."

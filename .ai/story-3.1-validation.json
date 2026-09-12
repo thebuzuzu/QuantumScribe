@@ -9,9 +9,7 @@
   "transition": "Draft -> Ready",
   "code_intelligence": "skipped: no configured runtime",
   "critical_issues": [],
-  "should_fix": [
-    "Definir a prioridade antes do planejamento do sprint."
-  ],
+  "should_fix": [],
   "coverage": [
     "template completeness",
     "executor and quality gate",

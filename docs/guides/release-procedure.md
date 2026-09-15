@@ -17,6 +17,9 @@ Os locks são gerados para Python 3.11, com hashes SHA-256 e faixa de suporte do
 projeto `>=3.11,<3.14`. O pipeline instala com `--require-hashes`; não há
 instalação aberta no caminho de release.
 
+O build Linux do workflow usa Python 3.12 para manter o Core portátil abaixo do
+limite de 250 MB; a validação e o build Windows permanecem em Python 3.13.
+
 ## Fluxo obrigatório
 
 1. Linux cria o Core em ambiente limpo, com as dependências de sistema do

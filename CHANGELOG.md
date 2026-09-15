@@ -4,6 +4,15 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
 ## [Não publicado]
 
+## [2.3.2] - 2026-09-15
+
+### Corrigido
+
+- Atualizador alinhado ao repositório oficial atual após a transferência para
+  `thebuzuzu/QuantumScribe`.
+- Validação de assets e da página da release passa a aceitar corretamente o
+  instalador oficial publicado no GitHub.
+
 ## [2.3.1] - 2026-09-15
 
 ### Alterado

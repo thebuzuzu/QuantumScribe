@@ -33,7 +33,7 @@ IA e empacotamento distribuível com PyInstaller.
 
 Estado técnico identificado:
 
-- Versão candidata atual do projeto: `2.3.1`.
+- Versão candidata atual do projeto: `2.3.2`.
 - Python suportado no `pyproject.toml`: `>=3.11,<3.14`.
 - Plataformas-alvo: Windows e Linux.
 - Execução local como princípio de privacidade e disponibilidade.

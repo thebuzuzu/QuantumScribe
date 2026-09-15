@@ -19,8 +19,8 @@ from typing import Callable
 from . import __version__
 from .config import app_data_dir
 
-_LATEST_RELEASE_API = "https://api.github.com/repos/Natanmelquiades/QuantumScribe/releases/latest"
-_REPOSITORY = "Natanmelquiades/QuantumScribe"
+_LATEST_RELEASE_API = "https://api.github.com/repos/thebuzuzu/QuantumScribe/releases/latest"
+_REPOSITORY = "thebuzuzu/QuantumScribe"
 _ALLOWED_HOSTS = {
     "api.github.com",
     "github.com",

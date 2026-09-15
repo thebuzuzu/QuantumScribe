@@ -31,22 +31,22 @@ def _release(version: str, installer_size: int) -> bytes:
             "tag_name": f"v{version}",
             "draft": False,
             "prerelease": False,
-            "html_url": f"https://github.com/Natanmelquiades/QuantumScribe/releases/tag/v{version}",
+            "html_url": f"https://github.com/thebuzuzu/QuantumScribe/releases/tag/v{version}",
             "assets": [
                 {
                     "name": installer_name,
                     "size": installer_size,
-                    "browser_download_url": f"https://github.com/Natanmelquiades/QuantumScribe/releases/download/v{version}/{installer_name}",
+                    "browser_download_url": f"https://github.com/thebuzuzu/QuantumScribe/releases/download/v{version}/{installer_name}",
                 },
                 {
                     "name": linux_name,
                     "size": installer_size,
-                    "browser_download_url": f"https://github.com/Natanmelquiades/QuantumScribe/releases/download/v{version}/{linux_name}",
+                    "browser_download_url": f"https://github.com/thebuzuzu/QuantumScribe/releases/download/v{version}/{linux_name}",
                 },
                 {
                     "name": "SHA256SUMS.txt",
                     "size": 100,
-                    "browser_download_url": f"https://github.com/Natanmelquiades/QuantumScribe/releases/download/v{version}/SHA256SUMS.txt",
+                    "browser_download_url": f"https://github.com/thebuzuzu/QuantumScribe/releases/download/v{version}/SHA256SUMS.txt",
                 },
             ],
         }
@@ -101,15 +101,15 @@ def test_download_rejects_modified_installer(tmp_path, monkeypatch):
     name = "QuantumScribe-Setup-2.2.13-Windows-x64.exe"
     info = updater.UpdateInfo(
         "2.2.13",
-        "https://github.com/Natanmelquiades/QuantumScribe/releases/tag/v2.2.13",
+        "https://github.com/thebuzuzu/QuantumScribe/releases/tag/v2.2.13",
         updater.ReleaseAsset(
             name,
-            f"https://github.com/Natanmelquiades/QuantumScribe/releases/download/v2.2.13/{name}",
+            f"https://github.com/thebuzuzu/QuantumScribe/releases/download/v2.2.13/{name}",
             len(payload),
         ),
         updater.ReleaseAsset(
             "SHA256SUMS.txt",
-            "https://github.com/Natanmelquiades/QuantumScribe/releases/download/v2.2.13/SHA256SUMS.txt",
+            "https://github.com/thebuzuzu/QuantumScribe/releases/download/v2.2.13/SHA256SUMS.txt",
             100,
         ),
     )
@@ -134,15 +134,15 @@ def test_download_accepts_matching_hash_and_reports_progress(tmp_path, monkeypat
     name = "QuantumScribe-Setup-2.2.13-Windows-x64.exe"
     info = updater.UpdateInfo(
         "2.2.13",
-        "https://github.com/Natanmelquiades/QuantumScribe/releases/tag/v2.2.13",
+        "https://github.com/thebuzuzu/QuantumScribe/releases/tag/v2.2.13",
         updater.ReleaseAsset(
             name,
-            f"https://github.com/Natanmelquiades/QuantumScribe/releases/download/v2.2.13/{name}",
+            f"https://github.com/thebuzuzu/QuantumScribe/releases/download/v2.2.13/{name}",
             len(payload),
         ),
         updater.ReleaseAsset(
             "SHA256SUMS.txt",
-            "https://github.com/Natanmelquiades/QuantumScribe/releases/download/v2.2.13/SHA256SUMS.txt",
+            "https://github.com/thebuzuzu/QuantumScribe/releases/download/v2.2.13/SHA256SUMS.txt",
             100,
         ),
     )

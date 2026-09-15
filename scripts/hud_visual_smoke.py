@@ -18,12 +18,9 @@ if str(ROOT) not in sys.path:
 from localwhisper.ui import Popup  # noqa: E402
 
 THEMES = (
-    "dots",
-    "atom",
-    "atom_compact",
     "atom_centered",
-    "atom_minimal",
     "liquid_orb",
+    "prismatic_bubble",
 )
 
 

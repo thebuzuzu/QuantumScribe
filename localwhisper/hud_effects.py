@@ -14,6 +14,8 @@ from PIL import Image
 
 LiquidOrbState = Literal["recording", "transcribing", "error", "exploding", "success"]
 
+ORB_THEMES = frozenset({"liquid_orb", "prismatic_bubble"})
+
 DEFAULT_ORB_COLOR = "#BF5AF2"
 ERROR_ORB_COLOR = "#FF647C"
 
@@ -138,13 +140,67 @@ def render_liquid_orb(
     )
 
 
+def render_prismatic_bubble(
+    size: int = 56,
+    time_value: float = 0.0,
+    color: str = DEFAULT_ORB_COLOR,
+    amplitude: float = 0.0,
+    state: LiquidOrbState = "recording",
+    scale: float = 1.0,
+    opacity: float = 1.0,
+    jitter: tuple[float, float] = (0.0, 0.0),
+) -> Image.Image:
+    """Render two overlapping liquid lobes with a prismatic color split."""
+    if size < 20:
+        raise ValueError("Prismatic Bubble exige uma área mínima de 20 pixels")
+
+    size = int(size)
+    lobe_size = max(20, int(round(size * 0.78)))
+    center = max(0, (size - lobe_size) // 2)
+    shift = min(max(1, size // 12), max(0, size - lobe_size))
+    base = _parse_hex_color(color)
+    blue = _mix_color(base, (55, 220, 255), 0.64)
+    pink = _mix_color(base, (255, 74, 190), 0.64)
+
+    def as_hex(rgb: tuple[int, int, int]) -> str:
+        return "#%02X%02X%02X" % rgb
+
+    left = render_liquid_orb(
+        size=lobe_size,
+        time_value=float(time_value) * 0.94,
+        color=as_hex(blue),
+        amplitude=amplitude,
+        state=state,
+        scale=scale,
+        opacity=opacity * 0.90,
+        jitter=jitter,
+    )
+    right = render_liquid_orb(
+        size=lobe_size,
+        time_value=float(time_value) * 1.08 + 0.42,
+        color=as_hex(pink),
+        amplitude=amplitude,
+        state=state,
+        scale=scale,
+        opacity=opacity * 0.90,
+        jitter=(-jitter[0], jitter[1]),
+    )
+    frame = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    frame.alpha_composite(left, dest=(max(0, center - shift), center))
+    frame.alpha_composite(right, dest=(min(size - lobe_size, center + shift), center))
+    return frame
+
+
 class LiquidOrbRenderer:
     """Pequeno adaptador stateful para o loop de animação do ``Popup``."""
 
-    def __init__(self, size: int = 56) -> None:
+    def __init__(self, size: int = 56, effect: str = "liquid_orb") -> None:
         if size < 20:
             raise ValueError("Liquid Orb exige um tamanho mínimo de 20 pixels")
+        if effect not in ORB_THEMES:
+            raise ValueError(f"Efeito de HUD desconhecido: {effect}")
         self.size = int(size)
+        self.effect = effect
 
     def render(
         self,
@@ -157,7 +213,8 @@ class LiquidOrbRenderer:
         opacity: float,
         jitter: tuple[float, float] = (0.0, 0.0),
     ) -> Image.Image:
-        return render_liquid_orb(
+        render = render_prismatic_bubble if self.effect == "prismatic_bubble" else render_liquid_orb
+        return render(
             size=self.size,
             time_value=time_value,
             color=color,
@@ -167,3 +224,10 @@ class LiquidOrbRenderer:
             opacity=opacity,
             jitter=jitter,
         )
+
+
+class PrismaticBubbleRenderer(LiquidOrbRenderer):
+    """Named adapter kept for callers that want the second bubble explicitly."""
+
+    def __init__(self, size: int = 56) -> None:
+        super().__init__(size=size, effect="prismatic_bubble")

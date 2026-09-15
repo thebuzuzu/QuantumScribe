@@ -4,6 +4,16 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
 ## [Não publicado]
 
+## [2.3.1] - 2026-09-15
+
+### Alterado
+- Versão alinhada à implementação do `Iniciar.bat`.
+- Catálogo de HUD reduzido a `Átomo Centralizado`, `Liquid Orb` e `Prismatic Bubble`.
+- Configurações antigas de HUD são migradas para `Átomo Centralizado`.
+
+### Corrigido
+- Renderer do `Prismatic Bubble` integrado ao ciclo de vida do HUD com fallback seguro.
+
 ## [2.3.0] - 2026-08-24
 
 ### Adicionado

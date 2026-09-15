@@ -1,14 +1,24 @@
 from localwhisper.config import AppConfig, load_config, save_config
-from localwhisper.hud_effects import LiquidOrbRenderer, render_liquid_orb
+from localwhisper.hud_effects import (
+    ORB_THEMES,
+    LiquidOrbRenderer,
+    render_liquid_orb,
+    render_prismatic_bubble,
+)
 from localwhisper.settings_ui import HUD_THEMES
 from localwhisper.ui import Popup
 
 
-def test_liquid_orb_is_catalogued_and_default_theme_is_unchanged():
+def test_only_supported_hud_themes_are_catalogued():
     theme_ids = {theme_id for theme_id, _name, _description in HUD_THEMES}
 
-    assert "liquid_orb" in theme_ids
+    assert theme_ids == {"atom_centered", "liquid_orb", "prismatic_bubble"}
+    assert ORB_THEMES == {"liquid_orb", "prismatic_bubble"}
     assert AppConfig().hud_theme == "atom_centered"
+
+
+def test_legacy_hud_theme_is_normalized_to_centered_atom():
+    assert AppConfig(hud_theme="dots").hud_theme == "atom_centered"
 
 
 def test_liquid_orb_theme_persists_and_reloads(tmp_path, monkeypatch):
@@ -49,6 +59,52 @@ def test_liquid_orb_frame_is_deterministic_and_responds_to_inputs():
     assert frame.tobytes() == same_frame.tobytes()
     assert frame.tobytes() != changed_frame.tobytes()
     assert frame.getchannel("A").getextrema()[1] > 0
+
+
+def test_prismatic_bubble_is_deterministic_and_visually_distinct():
+    frame = render_prismatic_bubble(
+        size=48,
+        time_value=1.25,
+        color="#0A84FF",
+        amplitude=0.35,
+        state="recording",
+    )
+    same_frame = render_prismatic_bubble(
+        size=48,
+        time_value=1.25,
+        color="#0A84FF",
+        amplitude=0.35,
+        state="recording",
+    )
+    liquid_frame = render_liquid_orb(
+        size=48,
+        time_value=1.25,
+        color="#0A84FF",
+        amplitude=0.35,
+        state="recording",
+    )
+
+    assert frame.mode == "RGBA"
+    assert frame.size == (48, 48)
+    assert frame.tobytes() == same_frame.tobytes()
+    assert frame.tobytes() != liquid_frame.tobytes()
+    assert frame.getchannel("A").getextrema()[1] > 0
+
+
+def test_renderer_can_select_prismatic_bubble():
+    renderer = LiquidOrbRenderer(size=48, effect="prismatic_bubble")
+
+    frame = renderer.render(
+        time_value=0.5,
+        color="#BF5AF2",
+        amplitude=0.2,
+        state="transcribing",
+        scale=1.0,
+        opacity=1.0,
+    )
+
+    assert renderer.effect == "prismatic_bubble"
+    assert frame.size == (48, 48)
 
 
 def test_liquid_orb_renderer_rejects_unsupported_size():

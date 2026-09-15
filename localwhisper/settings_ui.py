@@ -179,12 +179,9 @@ COMPUTE_TYPES: list[tuple[str, str, str]] = [
 ]
 
 HUD_THEMES: list[tuple[str, str, str]] = [
-    ("dots", "Bolinhas", "Cinco pontos animados em onda suave. Discreto e elegante."),
-    ("atom", "Átomo Clássico", "Órbitas de átomo com elétrons em movimento."),
-    ("atom_compact", "Átomo Compacto", "Versão menor e mais oval do átomo."),
     ("atom_centered", "Átomo Centralizado", "Somente o átomo, centralizado no indicador."),
-    ("atom_minimal", "Átomo Minimalista", "Traço fino e minimalista, quase invisível."),
     ("liquid_orb", "Liquid Orb", "Orbe líquido com brilho de vidro e movimento orgânico."),
+    ("prismatic_bubble", "Prismatic Bubble", "Bubble prismático de duas lobas e aro cromático."),
 ]
 
 ENHANCE_PROFILES: list[tuple[str, str, str]] = [

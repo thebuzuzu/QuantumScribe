@@ -15,6 +15,7 @@ from pathlib import Path
 
 # Nome global da aplicação para fins de caminhos no sistema operacional
 APP_NAME = "QuantumScribe"
+HUD_THEME_IDS = frozenset({"atom_centered", "liquid_orb", "prismatic_bubble"})
 
 
 @dataclass(slots=True)
@@ -93,6 +94,8 @@ class AppConfig:
         """
         if not self.effective_model:
             self.effective_model = self.model
+        if self.hud_theme not in HUD_THEME_IDS:
+            self.hud_theme = "atom_centered"
         # Modo literal é uma promessa de não alterar o texto reconhecido. Também
         # normalizamos configurações antigas que possam ter combinações inválidas.
         if self.literal_mode:

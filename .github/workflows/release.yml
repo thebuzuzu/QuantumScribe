@@ -134,7 +134,7 @@ jobs:
           $installer = Get-ChildItem dist\QuantumScribe-Setup-*-Windows-x64.exe -File -ErrorAction Stop | Select-Object -First 1
           $cuda = Get-ChildItem "dist\QuantumScribe-CUDA-$version-Windows-x64.zip" -File -ErrorAction Stop
           $vad = Get-ChildItem "dist\QuantumScribe-SileroVAD-$version-Windows-x64.zip" -File -ErrorAction Stop
-          $files = @($linuxArchive.FullName, $installer.FullName, $cuda.FullName, $vad.FullName)
+          $files = @($installer.FullName, $cuda.FullName, $vad.FullName)
           $linuxLines = Get-Content linux-release\SHA256SUMS-Linux.txt
           $allLines = foreach ($file in $files) {
             $hash = (Get-FileHash $file -Algorithm SHA256).Hash.ToLowerInvariant()

@@ -112,6 +112,7 @@ def test_release_build_separates_core_and_optional_components():
     assert "permissions:\n      contents: write" in release
     assert 'gh release create "$tag" --repo "${{ github.repository }}"' in release
     assert 'gh release edit "$tag" --repo "${{ github.repository }}"' in release
+    assert '$files = @($installer.FullName, $cuda.FullName, $vad.FullName)' in release
     assert 'gh release edit "$tag" --repo "${{ github.repository }}" --draft=false --latest' in release
 
 

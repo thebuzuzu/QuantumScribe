@@ -128,13 +128,13 @@ renderer será isolado dos caminhos dos temas existentes.
   `python -m pytest -q` passam no ambiente de desenvolvimento configurado.
 - Validação visual Windows/Linux foi registrada.
 - A documentação e o file list das stories foram atualizados.
-- Nenhum push, PR ou release foi executado durante a implementação deste epic;
-  a publicação externa é uma etapa separada do processo DevOps.
+- A publicação externa foi executada pelo processo DevOps após a implementação
+  deste epic, com a release pública `v2.3.0` aprovada pelo pipeline remoto.
 
 ## Handoff
 
-Próximo agente: `@devops`, para a publicação externa autorizada pelo responsável.
-Próximo comando: `*release`.
+Próximo agente: nenhum; a publicação externa foi concluída por `@devops`.
+Próximo comando: nenhum.
 Condição: Story 3.1 e Story 3.2 encerradas com QA PASS; o checkout local está
-organizado e validado. A publicação externa deve seguir o procedimento canônico
-em `docs/guides/release-procedure.md`.
+organizado e validado. A release `v2.3.0` foi publicada seguindo o procedimento
+canônico em `docs/guides/release-procedure.md`.

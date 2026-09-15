@@ -4,7 +4,7 @@ story_title: "Validar ciclo de vida, compatibilidade e empacotamento"
 gate: PASS
 status_reason: "Os oito critérios de aceite foram verificados por testes controlados, smoke visual nativo em Windows/Linux, smoke offline do executável Linux, inventários dos dois bundles e gates de qualidade; nenhuma falha alta ou crítica foi encontrada. CodeRabbit e radon permanecem indisponíveis no ambiente e foram registrados como limitações não bloqueantes."
 reviewer: "Quinn"
-reviewed_revision: "commit:e06b051"
+reviewed_revision: "commit:2a55abc"
 updated: "2026-09-13T00:00:00-03:00"
 top_issues: []
 waiver:

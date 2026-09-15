@@ -19,7 +19,7 @@ evidence:
   windows_visual_smoke: "PASS; 6 temas e transições concluídos"
   linux_visual_smoke: "PASS; 6 temas e transições concluídos sob Ubuntu/Xvfb"
   linux_packaged_smoke: "PASS; executável iniciou offline sob Xvfb, sem GPU, navegador, microfone ou rede"
-  windows_bundle_inventory: "PASS; 222.003 MB, 1326 arquivos"
+  windows_bundle_inventory: "PASS; 221.784 MB, 1326 arquivos"
   linux_bundle_inventory: "PASS; 227.705 MB, 865 arquivos"
   code_rabbit: "Indisponível no ambiente; tentativa registrada"
   radon: "Indisponível no ambiente; tentativa registrada"

@@ -1035,7 +1035,7 @@ _Nenhum item._
   Linux/Windows valida os artefatos e os inventários do Core.
 - **Critérios validados:** `pip install --require-hashes` e `pip check` passam nos
   ambientes de validação; `pip-audit` não encontrou vulnerabilidades conhecidas;
-  o build Linux passou com inventário de 227,705 MB e o Windows com 222,003 MB.
+  o build Linux passou com inventário de 227,705 MB e o Windows com 221,784 MB.
 - **Evidências:** [procedimento de release](guides/release-procedure.md),
   [Story 3.2](stories/3.2.story.md) e [gate QA 3.2](qa/gates/3.2-validar-ciclo-de-vida-compatibilidade-empacotamento.yml).
 

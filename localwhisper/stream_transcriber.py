@@ -245,11 +245,11 @@ def _create_best_vad(min_silence_ms: int = MIN_SILENCE_MS) -> _SileroVAD | _Ener
 def is_silero_available() -> bool:
     """Verifica se o modelo Silero opcional e o runtime ONNX estão prontos."""
     try:
-        import onnxruntime  # noqa: F401
+        import onnxruntime
 
         from .components import component_installed
 
-        return component_installed("silero_vad")
+        return callable(getattr(onnxruntime, "SessionOptions", None)) and component_installed("silero_vad")
     except (ImportError, OSError, ValueError):
         return False
 

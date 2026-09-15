@@ -41,6 +41,21 @@ COMPRESSION_RATIO_THRESHOLD: float = 2.4
 StatusCallback = Callable[[str], None]
 
 
+def _vad_runtime_available() -> bool:
+    """Retorna se o runtime opcional do filtro VAD está completo.
+
+    O Core distribuído não inclui as bibliotecas nativas do ``onnxruntime``.
+    Em builds congelados, o pacote residual pode ser importado, mas sem expor
+    ``SessionOptions``. Nessa situação a transcrição comum deve continuar sem
+    VAD, em vez de falhar antes de decodificar o áudio.
+    """
+    try:
+        import onnxruntime
+    except (ImportError, OSError):
+        return False
+    return callable(getattr(onnxruntime, "SessionOptions", None))
+
+
 class LocalTranscriber:
     """Classe responsável pelo ciclo de vida do modelo Whisper e transcrição do áudio."""
 
@@ -259,22 +274,27 @@ class LocalTranscriber:
                 base_prompt += f" {self.config.initial_prompt}"
             prompt = base_prompt
 
+        vad_filter = _vad_runtime_available()
+        decode_options = {
+            "language": self.config.language or None,
+            "task": task,
+            "beam_size": beam_size,
+            "vad_filter": vad_filter,
+            "condition_on_previous_text": not literal_mode,
+            "initial_prompt": prompt,
+            "no_speech_threshold": NO_SPEECH_THRESHOLD,
+            "log_prob_threshold": LOG_PROB_THRESHOLD,
+            "compression_ratio_threshold": COMPRESSION_RATIO_THRESHOLD,
+        }
+        if vad_filter:
+            decode_options["vad_parameters"] = {"min_silence_duration_ms": 400}
+
         def _run_decode() -> str:
             """Executa a decodificação completa e coleta os segmentos."""
             with self._decode_lock:
                 segments, transcription_info = self._model.transcribe(  # type: ignore[union-attr]
                     str(audio_path),
-                    language=self.config.language or None,
-                    task=task,
-                    beam_size=beam_size,
-                    vad_filter=True,  # Filtro de detecção de atividade de voz
-                    vad_parameters={"min_silence_duration_ms": 400},
-                    condition_on_previous_text=not literal_mode,
-                    initial_prompt=prompt,
-                    # --- Filtros de confiança (rejeita transcrições de baixa qualidade) ---
-                    no_speech_threshold=NO_SPEECH_THRESHOLD,
-                    log_prob_threshold=LOG_PROB_THRESHOLD,
-                    compression_ratio_threshold=COMPRESSION_RATIO_THRESHOLD,
+                    **decode_options,
                 )
 
                 # Força a avaliação das sentenças. Como segments é um gerador preguiçoso (lazy),
@@ -332,17 +352,7 @@ class LocalTranscriber:
                 with self._decode_lock:
                     segments, transcription_info = self._model.transcribe(
                         str(audio_path),
-                        language=self.config.language or None,
-                        task=task,
-                        beam_size=beam_size,
-                        vad_filter=True,
-                        vad_parameters={"min_silence_duration_ms": 400},
-                        condition_on_previous_text=not literal_mode,
-                        initial_prompt=prompt,
-                        # --- Filtros de confiança ---
-                        no_speech_threshold=NO_SPEECH_THRESHOLD,
-                        log_prob_threshold=LOG_PROB_THRESHOLD,
-                        compression_ratio_threshold=COMPRESSION_RATIO_THRESHOLD,
+                        **decode_options,
                     )
                     raw_text = self._segments_to_text(segments, translate=translate)
                 return raw_text

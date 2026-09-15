@@ -4,6 +4,17 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
 ## [Não publicado]
 
+## [2.3.3] - 2026-09-15
+
+### Corrigido
+
+- A transcrição padrão deixa de exigir o runtime opcional do Silero VAD. Quando
+  o Core não possui o ONNX Runtime completo, o ditado continua sem esse filtro.
+- A detecção de disponibilidade do Silero VAD agora confirma que o runtime ONNX
+  está íntegro antes de oferecê-lo ao modo streaming.
+- Downloads dos componentes opcionais passam a usar o repositório oficial atual
+  após a transferência para `thebuzuzu/QuantumScribe`.
+
 ## [2.3.2] - 2026-09-15
 
 ### Corrigido

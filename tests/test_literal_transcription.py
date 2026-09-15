@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from localwhisper.config import AppConfig
 from localwhisper.speech_cleaner import clean_transcription
@@ -82,6 +83,22 @@ class LiteralWhisperOptionsTests(unittest.TestCase):
         transcriber = LocalTranscriber(config, lambda _status: None)
 
         self.assertFalse(transcriber._literal_mode_enabled(translate=True))
+
+    def test_incomplete_vad_runtime_does_not_block_standard_transcription(self) -> None:
+        config = AppConfig(literal_mode=True)
+        transcriber = LocalTranscriber(config, lambda _status: None)
+        model = _FakeWhisperModel("a transcrição continua funcionando")
+        transcriber._model = model
+
+        with patch("localwhisper.transcriber._vad_runtime_available", return_value=False):
+            with tempfile.TemporaryDirectory() as tmp:
+                audio_path = Path(tmp) / "audio.wav"
+                audio_path.touch()
+                result = transcriber.transcribe(audio_path, duration=1.0)
+
+        self.assertEqual(result, "a transcrição continua funcionando.")
+        self.assertFalse(model.last_options["vad_filter"])
+        self.assertNotIn("vad_parameters", model.last_options)
 
 
 if __name__ == "__main__":

@@ -20,7 +20,7 @@ from typing import Callable, Iterable
 from . import __version__
 from .config import app_data_dir
 
-_RELEASE_BASE = "https://github.com/Natanmelquiades/QuantumScribe/releases/download"
+_RELEASE_BASE = "https://github.com/thebuzuzu/QuantumScribe/releases/download"
 _ALLOWED_DOWNLOAD_HOSTS = {
     "github.com",
     "objects.githubusercontent.com",

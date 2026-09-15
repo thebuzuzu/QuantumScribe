@@ -8,6 +8,10 @@ import pytest
 from localwhisper import components
 
 
+def test_component_downloads_follow_the_current_repository() -> None:
+    assert components._RELEASE_BASE == "https://github.com/thebuzuzu/QuantumScribe/releases/download"
+
+
 class _FakeResponse(io.BytesIO):
     def __init__(self, data, url="https://release-assets.githubusercontent.com/component.zip"):
         super().__init__(data)

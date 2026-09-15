@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -53,6 +54,11 @@ def _forbidden_reasons(relative_path: str) -> list[str]:
     return sorted(set(reasons))
 
 
+def _symlink_digest(target: str) -> str:
+    """Hash the link metadata without following the link target."""
+    return hashlib.sha256(f"symlink:{target}".encode("utf-8", "surrogateescape")).hexdigest()
+
+
 def build_inventory(root: Path, *, max_bytes: int, excluded: set[Path] | None = None) -> dict:
     root = root.resolve()
     excluded = {path.resolve() for path in (excluded or set())}
@@ -60,21 +66,35 @@ def build_inventory(root: Path, *, max_bytes: int, excluded: set[Path] | None = 
     forbidden: list[dict[str, object]] = []
     total_bytes = 0
 
-    for path in sorted((item for item in root.rglob("*") if item.is_file()), key=lambda item: _relative(item, root)):
+    for path in sorted(
+        (item for item in root.rglob("*") if item.is_file() or item.is_symlink()),
+        key=lambda item: _relative(item, root),
+    ):
         resolved = path.resolve()
         if resolved in excluded:
             continue
         relative = _relative(path, root)
-        digest = hashlib.sha256()
-        size = 0
-        with path.open("rb") as stream:
-            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
-                size += len(chunk)
-                digest.update(chunk)
-
-        entry = {"path": relative, "bytes": size, "sha256": digest.hexdigest()}
+        if path.is_symlink():
+            target = os.readlink(path)
+            entry = {
+                "path": relative,
+                "bytes": 0,
+                "sha256": _symlink_digest(target),
+                "type": "symlink",
+                "target": target,
+            }
+            if not resolved.is_relative_to(root):
+                forbidden.append({"path": relative, "reasons": ["symlink-outside-root"]})
+        else:
+            digest = hashlib.sha256()
+            size = 0
+            with path.open("rb") as stream:
+                for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                    size += len(chunk)
+                    digest.update(chunk)
+            entry = {"path": relative, "bytes": size, "sha256": digest.hexdigest()}
         files.append(entry)
-        total_bytes += size
+        total_bytes += int(entry["bytes"])
         reasons = _forbidden_reasons(relative)
         if reasons:
             forbidden.append({"path": relative, "reasons": reasons})

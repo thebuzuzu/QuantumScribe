@@ -19,9 +19,11 @@ instalação aberta no caminho de release.
 
 ## Fluxo obrigatório
 
-1. Linux cria o Core em ambiente limpo, executa `pip check`, PyInstaller e o
-   inventário de 250 MB; então envia os artefatos para o armazenamento interno
-   do workflow.
+1. Linux cria o Core em ambiente limpo, com as dependências de sistema do
+   workflow, executa `pip check`, PyInstaller, a redução determinística de
+   binários de terceiros e o inventário de 250 MB; links simbólicos do bundle
+   são inventariados sem duplicar o alvo.
+   Então envia os artefatos para o armazenamento interno do workflow.
 2. Windows baixa o artefato Linux validado, instala o perfil de testes, roda
    compilação, Ruff, pytest, `pip check` e `pip-audit`, e cria o Core Windows.
 3. O Core Windows é reprovado se o inventário encontrar CUDA, Torch, ONNX

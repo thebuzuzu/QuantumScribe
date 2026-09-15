@@ -1,5 +1,8 @@
 import json
+import os
 from pathlib import Path
+
+import pytest
 
 from scripts.inventory_bundle import build_inventory, main
 
@@ -45,3 +48,24 @@ def test_inventory_excludes_its_output_when_inside_artifact(tmp_path: Path):
     assert main([str(artifact), "--output", str(report)]) == 0
     payload = json.loads(report.read_text(encoding="utf-8"))
     assert [entry["path"] for entry in payload["files"]] == ["app.exe"]
+
+
+def test_inventory_counts_symlink_metadata_without_double_counting_target(tmp_path: Path):
+    artifact = tmp_path / "artifact"
+    artifact.mkdir()
+    target = artifact / "payload.bin"
+    target.write_bytes(b"payload")
+    alias = artifact / "alias.bin"
+    try:
+        os.symlink(target.name, alias)
+    except (OSError, NotImplementedError):
+        pytest.skip("symlink não disponível neste ambiente")
+
+    payload = build_inventory(artifact, max_bytes=1024)
+
+    assert payload["total_bytes"] == len(b"payload")
+    link = next(entry for entry in payload["files"] if entry["path"] == "alias.bin")
+    assert link["bytes"] == 0
+    assert link["type"] == "symlink"
+    assert link["target"] == "payload.bin"
+    assert payload["policy"]["passed"] is True

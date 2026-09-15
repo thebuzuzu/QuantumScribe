@@ -29,10 +29,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y python3-tk python3-dev build-essential pkg-config \
             portaudio19-dev libcairo2-dev libgirepository-2.0-dev \
-            gir1.2-gtk-3.0 gir1.2-ayatanaappindicator3-0.1
+            gir1.2-gtk-3.0 gir1.2-ayatanaappindicator3-0.1 xvfb
 
       - name: Build and validate Linux Core
         run: bash build_linux.sh
+
+      - name: Smoke visual do HUD no Linux
+        run: xvfb-run --auto-servernum .venv-linux/bin/python scripts/hud_visual_smoke.py --duration-ms 180
 
       - name: Package validated Linux application
         run: |

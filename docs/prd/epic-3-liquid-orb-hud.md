@@ -1,6 +1,6 @@
 # EPIC-LOHUD: QuantumScribe — Liquid Orb HUD
 
-**Status:** In Progress — Story 3.1 concluída; Story 3.2 ainda pendente
+**Status:** Done — Stories 3.1 e 3.2 concluídas com QA PASS
 **Owner:** Product / Architecture
 **Created:** 2026-08-23
 **Tipo:** Brownfield — melhoria visual isolada
@@ -132,7 +132,7 @@ renderer será isolado dos caminhos dos temas existentes.
 
 ## Handoff
 
-Próximo agente: `@sm`
-Próximo comando: `*draft 3.2`
-Condição: Story 3.1 encerrada com QA PASS; criar e validar a Story 3.2 para
-compatibilidade, ciclo de vida e empacotamento antes de encerrar este epic.
+Próximo agente: `@devops`, somente se a publicação externa for solicitada.
+Próximo comando: nenhum no checkout local.
+Condição: Story 3.1 e Story 3.2 encerradas com QA PASS; o checkout local está
+organizado e validado. Nenhum push, PR ou release foi executado.

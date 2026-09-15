@@ -1,0 +1,28 @@
+schema: 1
+story: "3.2"
+story_title: "Validar ciclo de vida, compatibilidade e empacotamento"
+gate: PASS
+status_reason: "Os oito critérios de aceite foram verificados por testes controlados, smoke visual nativo em Windows/Linux, smoke offline do executável Linux, inventários dos dois bundles e gates de qualidade; nenhuma falha alta ou crítica foi encontrada. CodeRabbit e radon permanecem indisponíveis no ambiente e foram registrados como limitações não bloqueantes."
+reviewer: "Quinn"
+reviewed_revision: "commit:2a55abc"
+updated: "2026-09-13T00:00:00-03:00"
+top_issues: []
+waiver:
+  active: false
+quality_score: 100
+evidence:
+  tests: "171 passed, 2 skipped; Linux platform e symlink skip esperados no Windows"
+  ruff: "PASS; All checks passed"
+  compileall: "PASS; main.py, localwhisper, scripts e tests"
+  pip_check: "PASS; No broken requirements found"
+  pip_audit: "PASS; Core, CUDA component e VAD component sem vulnerabilidades conhecidas"
+  windows_visual_smoke: "PASS; 6 temas e transições concluídos"
+  linux_visual_smoke: "PASS; 6 temas e transições concluídos sob Ubuntu/Xvfb"
+  linux_packaged_smoke: "PASS; executável iniciou offline sob Xvfb, sem GPU, navegador, microfone ou rede"
+  windows_bundle_inventory: "PASS; 221.784 MB, 1326 arquivos"
+  linux_bundle_inventory: "PASS; 227.705 MB, 865 arquivos"
+  code_rabbit: "Indisponível no ambiente; tentativa registrada"
+  radon: "Indisponível no ambiente; tentativa registrada"
+recommendations:
+  - "Executar o workflow de release em Ubuntu/Windows antes da primeira publicação pública."
+  - "Executar CodeRabbit e radon em um ambiente que forneça essas ferramentas, caso a política de revisão as exija."

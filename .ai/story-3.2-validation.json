@@ -1,0 +1,27 @@
+{
+  "story_id": "3.2",
+  "story_path": "docs/stories/3.2.story.md",
+  "status": "GO",
+  "score": 9,
+  "confidence": "high",
+  "validated_by": "@sm (River)",
+  "date": "2026-09-12",
+  "transition": "Draft -> Ready",
+  "code_intelligence": "skipped: no configured runtime",
+  "clickup": "skipped: no configured connector in current runtime",
+  "critical_issues": [],
+  "should_fix": [],
+  "coverage": [
+    "goal, context and epic relationship",
+    "acceptance criteria to task mapping",
+    "architecture and source-tree references",
+    "lifecycle, platform and packaging validation",
+    "testing and offline smoke guidance",
+    "CodeRabbit configuration and self-healing"
+  ],
+  "notes": [
+    "Story 3.1 is Done and the parent epic explicitly identifies 3.2 as the next story.",
+    "All referenced local documents exist and git diff --check passes.",
+    "PO validation is the next workflow gate before implementation."
+  ]
+}

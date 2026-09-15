@@ -34,7 +34,7 @@ a = Analysis(
     excludes=[
         'torch', 'torchaudio', 'silero_vad', 'nvidia', 'onnxruntime',
         'matplotlib', 'contourpy', 'cycler', 'fonttools', 'kiwisolver',
-        'comtypes', 'uiautomation'
+        'comtypes', 'uiautomation', 'hf_xet'
     ],
     noarchive=False,
     optimize=0,
@@ -51,7 +51,7 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,
+    upx=False,
     console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
@@ -64,7 +64,7 @@ coll = COLLECT(
     a.binaries,
     a.datas,
     strip=False,
-    upx=True,
+    upx=False,
     upx_exclude=[],
     name='QuantumScribe',
 )

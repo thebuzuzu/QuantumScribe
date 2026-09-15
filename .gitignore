@@ -55,6 +55,7 @@ LocalWhisper.spec.bak
 
 # Internal publication audit reports
 docs/AUDITORIA_PUBLICACAO_*.md
+.publish-*/
 
 # Keep the official PyInstaller recipes tracked.
 !QuantumScribe.spec

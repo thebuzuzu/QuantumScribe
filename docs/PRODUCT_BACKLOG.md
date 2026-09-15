@@ -52,6 +52,9 @@ mesmo sem prioridade ou especificação completa. Durante o refinamento, cada it
 
 ## Visão geral
 
+**Snapshot de 2026-09-13:** 30 itens — 26 em refinamento, nenhum planejado e 4
+concluídos. Por prioridade: 17 P1, 12 P2 e 1 P3.
+
 | ID | Item | Tipo | Status | Prioridade | Esforço | PRD |
 | --- | --- | --- | --- | --- | --- | --- |
 | QS-001 | Fila de transcrições consecutivas | Feature | Em refinamento | P1 — Alta | G | [Abrir PRD](PRD_FILA_TRANSCRICOES.md) |
@@ -74,7 +77,7 @@ mesmo sem prioridade ou especificação completa. Durante o refinamento, cada it
 | QS-018 | Verificar e atualizar somente o aplicativo | Feature | Em refinamento | P2 — Média | G | [Abrir PRD](PRD_QS018_ATUALIZACAO_APLICATIVO.md) |
 | QS-019 | Tornar a instalação e a primeira execução calmas e verificáveis | Melhoria | Em refinamento | P1 — Alta | G | [PRD relacionado](PRD_CORE_LEVE_COMPONENTES_SOB_DEMANDA.md) |
 | QS-020 | Acelerar a primeira transcrição com preparação antecipada | Melhoria | Em refinamento | P1 — Alta | M | A criar |
-| QS-021 | Restaurar manifesto de dependências e release reproduzível | Bug | Em refinamento | P1 — Alta | M | A criar |
+| QS-021 | Restaurar manifesto de dependências e release reproduzível | Bug | Concluído | P1 — Alta | M | [Procedimento de release](guides/release-procedure.md) |
 | QS-022 | Contrato único de atalhos e conflitos entre plataformas | Bug | Em refinamento | P1 — Alta | M | A criar |
 | QS-023 | Isolar sessões e cancelamento cooperativo de ditados | Bug | Em refinamento | P1 — Alta | G | A criar |
 | QS-024 | Garantir paridade e qualidade do streaming contínuo | Melhoria | Em refinamento | P2 — Média | G | A criar |
@@ -83,13 +86,17 @@ mesmo sem prioridade ou especificação completa. Durante o refinamento, cada it
 | QS-027 | Inicialização rápida de dispositivos de áudio virtuais no Windows | Melhoria | Em refinamento | P1 — Alta | M | A criar |
 | QS-028 | Iniciar automaticamente com o Windows | Feature | Concluído | P1 — Alta | M | A criar |
 | QS-029 | Organizar configurações e tornar toggles verificáveis | Melhoria | Concluído | P2 — Média | M | A criar |
+| QS-030 | Implementar tema Liquid Orb portátil e fallback | Melhoria | Concluído | P2 — Média | M | [Story 3.1](stories/3.1.story.md) |
 
 ## Programa de implementação
 
-O programa aprovado para entregar todos os itens deste backlog está consolidado
-no [PRD — Implementação integral do Product Backlog](PRD_IMPLEMENTACAO_PRODUCT_BACKLOG.md).
-Ele organiza os itens por ondas, dependências, portões de decisão e critérios de
-conclusão, sem substituir os PRDs específicos já existentes.
+O backlog é a fonte de verdade da sequência de execução. Os PRDs específicos
+continuam definindo o escopo de cada item; os próximos itens priorizados são:
+
+| Ordem | Item | Situação | Próximo resultado |
+| --- | --- | --- | --- |
+| 1 | QS-017 | Em refinamento | Preparar a story de estabilização do HUD, cancelamento e prontidão. |
+| 2 | QS-023 | Em refinamento | Preparar a story de isolamento de sessões e cancelamento cooperativo. |
 
 ## Caixa de Entrada
 
@@ -812,41 +819,6 @@ _Nenhum item aguardando triagem._
   e NVIDIA, validar os limites de memória e decidir se a preparação antecipada
   será padrão automático ou uma preferência explícita.
 
-### QS-021 — Restaurar manifesto de dependências e release reproduzível
-
-- **Tipo:** Bug de instalação e distribuição.
-- **Prioridade preliminar:** P1 — Alta.
-- **Esforço preliminar:** M.
-- **Relacionado a:** QS-006 — Download resiliente; QS-019 — Instalação e primeira execução.
-- **Problema confirmado na auditoria:** os manifestos de CPU, Windows e Linux
-  ainda incluem `requirements-base.txt`, mas esse arquivo está ausente no
-  worktree atual. Uma instalação a partir desses manifests falha antes de criar
-  o ambiente. Como a remoção pode ser trabalho local intencional, ela não foi
-  revertida automaticamente.
-- **Resultado desejado:** cada caminho oficial de instalação deve resolver um
-  manifesto completo, versionado e verificável, sem depender de arquivo ausente
-  nem de dependências implícitas do ambiente de desenvolvimento.
-- **Andamento (v2.2.28):** a referência quebrada foi substituída por
-  `requirements-common.txt`, preservando a remoção local de
-  `requirements-base.txt`. CPU, CUDA, Windows, Linux e teste agora resolvem o
-  manifesto comum; há teste de regressão para includes e o resolvedor do `pip`
-  foi executado em modo seco para CPU. Os arquivos `.lock` atuais continuam
-  semanticamente compatíveis, mas precisam ser regenerados para atualizar sua
-  proveniência comentada e validar cada plataforma em ambiente realmente limpo.
-- **Regras preliminares:**
-  - decidir explicitamente entre restaurar um manifesto-base, consolidar os
-    manifests por plataforma ou substituir a referência por outro arquivo;
-  - não modificar nem restaurar deleções locais sem confirmar sua origem;
-  - validar instalação limpa de CPU, Windows e Linux em ambiente isolado;
-  - manter locks e manifests de build/teste coerentes com os requisitos de
-    runtime;
-  - documentar um único comando recomendado por plataforma.
-- **Critério principal de aceite:** cada arquivo de requisitos referenciado por
-  README, scripts e CI existe e `pip install -r` conclui em ambiente limpo para
-  a plataforma correspondente.
-- **Próxima decisão:** regenerar locks com o manifesto novo e executar os
-  installs isolados de CPU/Windows/Linux antes da próxima release.
-
 ### QS-022 — Contrato único de atalhos e conflitos entre plataformas
 
 - **Tipo:** Bug de previsibilidade dos controles.
@@ -1052,6 +1024,21 @@ _Nenhum item._
 
 ## Concluído
 
+### QS-021 — Restaurar manifesto de dependências e release reproduzível
+
+- **Tipo:** Bug de instalação e distribuição.
+- **Prioridade preliminar:** P1 — Alta.
+- **Esforço preliminar:** M.
+- **Resultado entregue:** referências quebradas foram substituídas por
+  `requirements-common.txt`; os locks de runtime, build e teste permanecem
+  versionados; o lock de testes recebeu o patch de `pip==26.2.1`; o workflow
+  Linux/Windows valida os artefatos e os inventários do Core.
+- **Critérios validados:** `pip install --require-hashes` e `pip check` passam nos
+  ambientes de validação; `pip-audit` não encontrou vulnerabilidades conhecidas;
+  o build Linux passou com inventário de 227,705 MB e o Windows com 221,784 MB.
+- **Evidências:** [procedimento de release](guides/release-procedure.md),
+  [Story 3.2](stories/3.2.story.md) e [gate QA 3.2](qa/gates/3.2-validar-ciclo-de-vida-compatibilidade-empacotamento.yml).
+
 ### QS-028 — Iniciar automaticamente com o Windows
 
 - **Tipo:** Feature de integração com o sistema operacional.
@@ -1086,6 +1073,25 @@ _Nenhum item._
 - **Critérios validados:** regressão de rollback coberta por teste sem Tk real;
   toggles dependentes só reconstruem a página após uma gravação bem-sucedida;
   suíte focada passou integralmente.
+
+### QS-030 — Implementar tema Liquid Orb portátil e fallback
+
+- **Tipo:** Melhoria de interface e compatibilidade.
+- **Prioridade preliminar:** P2 — Média.
+- **Esforço preliminar:** M.
+- **Resultado entregue:** renderer rasterizado de baixa resolução, sem GPU,
+  navegador ou processo externo; opção persistível `liquid_orb` no catálogo do
+  HUD; fallback para `atom_centered` e proteção contra callbacks de gerações
+  visuais anteriores.
+- **Critérios validados:** story 3.1 aprovada pelo QA, 168 testes aprovados e
+  1 ignorado por ser específico do Linux; revisão nativa Linux permanece como
+  gate do workflow de release.
+- **Especificação e evidências:** [Story 3.1 — Liquid Orb](stories/3.1.story.md),
+  [gate QA](qa/gates/3.1-implementar-tema-liquid-orb-portatil-e-fallback.yml).
+- **Continuidade do épico:** a [Story 3.2 — ciclo de vida, compatibilidade e
+  empacotamento](stories/3.2.story.md) foi concluída com QA PASS; o
+  [gate QA 3.2](qa/gates/3.2-validar-ciclo-de-vida-compatibilidade-empacotamento.yml)
+  registra os testes, smokes e inventários.
 
 ## Descartado
 

@@ -1,10 +1,10 @@
 # EPIC-LOHUD: QuantumScribe — Liquid Orb HUD
 
-**Status:** Draft
+**Status:** Done — Stories 3.1 e 3.2 concluídas com QA PASS
 **Owner:** Product / Architecture
 **Created:** 2026-08-23
 **Tipo:** Brownfield — melhoria visual isolada
-**Prioridade:** A definir pelo @po
+**Prioridade:** P2 — Média
 **Estimativa preliminar:** 2 stories
 
 ## Objective
@@ -128,11 +128,13 @@ renderer será isolado dos caminhos dos temas existentes.
   `python -m pytest -q` passam no ambiente de desenvolvimento configurado.
 - Validação visual Windows/Linux foi registrada.
 - A documentação e o file list das stories foram atualizados.
-- Nenhum push, PR ou release foi executado por este epic.
+- A publicação externa foi executada pelo processo DevOps após a implementação
+  deste epic, com a release pública `v2.3.0` aprovada pelo pipeline remoto.
 
 ## Handoff
 
-Próximo agente: `@sm`
-Próximo comando: `*draft`
-Condição: epic Draft registrado; criar Story 3.1 e validar com @po antes do
-desenvolvimento.
+Próximo agente: nenhum; a publicação externa foi concluída por `@devops`.
+Próximo comando: nenhum.
+Condição: Story 3.1 e Story 3.2 encerradas com QA PASS; o checkout local está
+organizado e validado. A release `v2.3.0` foi publicada seguindo o procedimento
+canônico em `docs/guides/release-procedure.md`.

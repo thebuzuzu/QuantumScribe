@@ -33,7 +33,7 @@ IA e empacotamento distribuível com PyInstaller.
 
 Estado técnico identificado:
 
-- Versão atual do projeto: `2.2.34`.
+- Versão candidata atual do projeto: `2.3.0`.
 - Python suportado no `pyproject.toml`: `>=3.11,<3.14`.
 - Plataformas-alvo: Windows e Linux.
 - Execução local como princípio de privacidade e disponibilidade.
@@ -59,7 +59,7 @@ Estado técnico identificado:
 | Arquitetura do sistema | ✓ Disponível | `docs/architecture.md` e `docs/architecture/` publicados. |
 | Padrões de código | ✓ Disponível | `docs/framework/coding-standards.md` publicado. |
 | Tech stack documentada | ✓ Disponível | `docs/framework/tech-stack.md` publicado. |
-| Stories detalhadas | ✓ Concluídas | Stories 1.1, 1.2 e 1.3 estão `Done` com gates QA. |
+| Stories detalhadas | ✓ Concluídas | Stories 1.1, 1.2, 1.3 e 3.1 estão registradas com gates QA. |
 | API documentation | N/A/limitada | O produto não expõe uma API pública como parte do fluxo principal. |
 | UX/UI guidelines | ⚠️ Parcial | Há screenshots e PRDs específicos, mas não um sistema documentado único. |
 | Technical debt report | ✓ Parcial | Este PRD consolida a auditoria, mas o inventário deve ser mantido após cada story. |

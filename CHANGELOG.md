@@ -4,6 +4,21 @@ Todas as alterações notáveis neste projeto serão documentadas neste arquivo.
 
 ## [Não publicado]
 
+## [2.3.0] - 2026-08-24
+
+### Adicionado
+- Novo HUD `Liquid Orb`, com renderização procedural portátil e visual reativo
+  ao estado da transcrição.
+- Opção `Liquid Orb` disponível nas configurações, mantendo `Átomo Centralizado`
+  como padrão e fallback seguro em ambientes sem suporte ao efeito.
+
+### Qualidade
+- Adicionados testes de renderização, ciclo de vida, fallback e seleção do HUD.
+- Release validada com Ruff, compilação Python, `pip check` e suíte completa:
+  168 testes aprovados e 1 ignorado.
+- Lock de testes atualizado para `pip==26.2.1`; `pip-audit` sem vulnerabilidades
+  conhecidas no ambiente QA.
+
 ## [2.2.34] - 2026-08-18
 
 ### Corrigido

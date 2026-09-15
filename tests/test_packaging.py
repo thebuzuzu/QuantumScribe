@@ -56,6 +56,11 @@ def test_linux_packaging_sources_exist():
     assert 'pip install "pyinstaller>=6.18,<7"' not in build_script
     assert "'PIL._tkinter_finder'" in spec
     assert "'gi.repository.AyatanaAppIndicator3'" in spec
+    assert "'hf_xet'" in spec
+    assert "strip --strip-unneeded" in build_script
+    assert "libpython*.so" in build_script
+    assert "libx265-*" in build_script
+    assert "upx" not in build_script.lower()
     assert "tray-icon.png" in spec
     assert "install_linux_shortcut.sh" in release
 
@@ -105,7 +110,10 @@ def test_release_build_separates_core_and_optional_components():
     assert "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093" in release
     assert "needs: [build-linux, build-windows]" in release
     assert "permissions:\n      contents: write" in release
-    assert 'gh release edit "$tag" --draft=false --latest' in release
+    assert 'gh release create "$tag" --repo "${{ github.repository }}"' in release
+    assert 'gh release edit "$tag" --repo "${{ github.repository }}"' in release
+    assert '$files = @($installer.FullName, $cuda.FullName, $vad.FullName)' in release
+    assert 'gh release edit "$tag" --repo "${{ github.repository }}" --draft=false --latest' in release
 
 
 def test_build_scripts_enforce_core_inventory():

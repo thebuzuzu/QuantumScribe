@@ -1,6 +1,6 @@
 [project]
 name = "quantumscribe"
-version = "2.2.34"
+version = "2.3.0"
 description = "Ditado por voz local para Windows e Linux com faster-whisper."
 readme = "README.md"
 requires-python = ">=3.11,<3.14"

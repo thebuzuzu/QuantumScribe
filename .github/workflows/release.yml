@@ -179,5 +179,5 @@ jobs:
             dist/QuantumScribe-CUDA-*-Windows-x64.zip \
             dist/QuantumScribe-SileroVAD-*-Windows-x64.zip \
             SHA256SUMS.txt)
-          gh release create "$tag" "${assets[@]}" --draft --generate-notes --verify-tag
-          gh release edit "$tag" --draft=false --latest
+          gh release create "$tag" --repo "${{ github.repository }}" "${assets[@]}" --draft --generate-notes --verify-tag
+          gh release edit "$tag" --repo "${{ github.repository }}" --draft=false --latest

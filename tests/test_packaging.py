@@ -110,7 +110,9 @@ def test_release_build_separates_core_and_optional_components():
     assert "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093" in release
     assert "needs: [build-linux, build-windows]" in release
     assert "permissions:\n      contents: write" in release
-    assert 'gh release edit "$tag" --draft=false --latest' in release
+    assert 'gh release create "$tag" --repo "${{ github.repository }}"' in release
+    assert 'gh release edit "$tag" --repo "${{ github.repository }}"' in release
+    assert 'gh release edit "$tag" --repo "${{ github.repository }}" --draft=false --latest' in release
 
 
 def test_build_scripts_enforce_core_inventory():

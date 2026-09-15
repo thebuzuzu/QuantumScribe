@@ -34,6 +34,12 @@ for dir in \
     fi
 done
 
+if [ -d "dist/QuantumScribe/_internal" ]; then
+    find dist/QuantumScribe/_internal -maxdepth 1 -type f \
+        \( -name 'libpython*.so' -o -name 'libpython*.so.*' \) \
+        -exec strip --strip-unneeded {} +
+fi
+
 echo "=== Removendo codecs de vídeo opcionais do PyAV ==="
 if [ -d "dist/QuantumScribe/_internal/av.libs" ]; then
     for pattern in \

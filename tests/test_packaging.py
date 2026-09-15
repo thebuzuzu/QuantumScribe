@@ -58,6 +58,7 @@ def test_linux_packaging_sources_exist():
     assert "'gi.repository.AyatanaAppIndicator3'" in spec
     assert "'hf_xet'" in spec
     assert "strip --strip-unneeded" in build_script
+    assert "libpython*.so" in build_script
     assert "libx265-*" in build_script
     assert "upx" not in build_script.lower()
     assert "tray-icon.png" in spec
